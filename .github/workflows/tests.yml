@@ -27,11 +27,10 @@ jobs:
         run: python -m pytest -q
 
       - name: The pipeline reproduces the published run
-        # Regenerates results/reference_run.json from the CSV. If any published
-        # number changed, the diff fails here rather than in the README.
-        run: |
-          python -m dps.pipeline
-          git diff --exit-code -- results/reference_run.json
+        # Recomputes everything and compares against the committed run. The
+        # environment block is excluded, since the Python version and the
+        # timestamp differ here from the machine that produced the file.
+        run: python -m dps.pipeline --check
 
       - name: README and docs still match the run
         run: python scripts/check_claims.py

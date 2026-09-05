@@ -19,8 +19,10 @@ Writes:
 
 from __future__ import annotations
 
+import argparse
 import json
 import platform
+import sys
 from datetime import datetime, timezone
 
 import numpy as np
@@ -82,7 +84,12 @@ def choose_window(df: pd.DataFrame) -> tuple[int | None, list[dict]]:
     return best["window"], trace
 
 
-def main() -> int:
+def comparable(payload: dict) -> dict:
+    """The payload without the environment block, which varies by machine."""
+    return {k: v for k, v in payload.items() if k != "environment"}
+
+
+def main(check: bool = False) -> int:
     df = load_monthly()
     train, test = split(df, TRAIN_END_YEAR)
     all_series = series_list(df)
@@ -170,9 +177,13 @@ def main() -> int:
     )
 
     payload = {
-        "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "python": platform.python_version(),
-        "sklearn": sklearn.__version__,
+        # Kept out of --check: these say where the run happened, not what it
+        # found, and they differ between machines and CI.
+        "environment": {
+            "generated_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "python": platform.python_version(),
+            "sklearn": sklearn.__version__,
+        },
         "dataset": {
             "file": "monatszahlen2405_verkehrsunfaelle_export_31_05_24_r.csv",
             "source": "Landeshauptstadt Muenchen, open data portal",
@@ -206,6 +217,20 @@ def main() -> int:
         "micro": micro,
         "per_series": per_series,
     }
+    if check:
+        if not RESULTS.is_file():
+            print(f"\n  {RESULTS.name} is missing, nothing to check against", file=sys.stderr)
+            return 1
+        stored = json.loads(RESULTS.read_text(encoding="utf-8"))
+        if comparable(stored) == comparable(payload):
+            print(f"\n  {RESULTS.name} matches this run exactly")
+            return 0
+        print(f"\n  {RESULTS.name} does not match this run", file=sys.stderr)
+        for key in sorted(set(comparable(stored)) | set(comparable(payload))):
+            if comparable(stored).get(key) != comparable(payload).get(key):
+                print(f"    section differs: {key}", file=sys.stderr)
+        return 1
+
     RESULTS.parent.mkdir(parents=True, exist_ok=True)
     RESULTS.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
                        encoding="utf-8", newline="\n")
@@ -215,4 +240,7 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    parser = argparse.ArgumentParser(description="Train, evaluate and write artifacts.")
+    parser.add_argument("--check", action="store_true",
+                        help="recompute and compare against the stored run without writing")
+    raise SystemExit(main(**vars(parser.parse_args())))
