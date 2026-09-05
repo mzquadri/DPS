@@ -89,6 +89,46 @@ def comparable(payload: dict) -> dict:
     return {k: v for k, v in payload.items() if k != "environment"}
 
 
+#: Floating point results are not bit-identical across platforms, because the
+#: linear algebra underneath uses whatever BLAS the platform ships. This is far
+#: tighter than any number this repository publishes, which are quoted to four
+#: decimals at most, while still tolerating that noise.
+TOLERANCE = 1e-9
+
+
+def differences(stored, fresh, path: str = "") -> list[str]:
+    """Every leaf that differs by more than the tolerance, with its path."""
+    out: list[str] = []
+    if isinstance(stored, dict) and isinstance(fresh, dict):
+        for key in sorted(set(stored) | set(fresh)):
+            if key not in stored:
+                out.append(f"{path}.{key} only in this run")
+            elif key not in fresh:
+                out.append(f"{path}.{key} only in the stored run")
+            else:
+                out += differences(stored[key], fresh[key], f"{path}.{key}")
+    elif isinstance(stored, list) and isinstance(fresh, list):
+        if len(stored) != len(fresh):
+            out.append(f"{path} length {len(stored)} against {len(fresh)}")
+        else:
+            for i, (a, b) in enumerate(zip(stored, fresh, strict=True)):
+                out += differences(a, b, f"{path}[{i}]")
+    elif isinstance(stored, (int, float)) and isinstance(fresh, (int, float)):
+        if isinstance(stored, bool) or isinstance(fresh, bool):
+            if stored is not fresh:
+                out.append(f"{path}: {stored} against {fresh}")
+        else:
+            a, b = float(stored), float(fresh)
+            if a != b and not (a != a and b != b):  # NaN compares unequal to itself
+                scale = max(abs(a), abs(b), 1e-300)
+                if abs(a - b) / scale > TOLERANCE:
+                    out.append(f"{path}: {a!r} against {b!r} "
+                               f"(relative {abs(a - b) / scale:.2e})")
+    elif stored != fresh:
+        out.append(f"{path}: {stored!r} against {fresh!r}")
+    return out
+
+
 def main(check: bool = False) -> int:
     df = load_monthly()
     train, test = split(df, TRAIN_END_YEAR)
@@ -222,13 +262,16 @@ def main(check: bool = False) -> int:
             print(f"\n  {RESULTS.name} is missing, nothing to check against", file=sys.stderr)
             return 1
         stored = json.loads(RESULTS.read_text(encoding="utf-8"))
-        if comparable(stored) == comparable(payload):
-            print(f"\n  {RESULTS.name} matches this run exactly")
+        diffs = differences(comparable(stored), comparable(payload))
+        if not diffs:
+            print(f"\n  {RESULTS.name} matches this run to within {TOLERANCE:g} relative")
             return 0
-        print(f"\n  {RESULTS.name} does not match this run", file=sys.stderr)
-        for key in sorted(set(comparable(stored)) | set(comparable(payload))):
-            if comparable(stored).get(key) != comparable(payload).get(key):
-                print(f"    section differs: {key}", file=sys.stderr)
+        print(f"\n  {RESULTS.name} does not match this run "
+              f"({len(diffs)} values beyond {TOLERANCE:g} relative):", file=sys.stderr)
+        for line in diffs[:25]:
+            print(f"    {line}", file=sys.stderr)
+        if len(diffs) > 25:
+            print(f"    and {len(diffs) - 25} more", file=sys.stderr)
         return 1
 
     RESULTS.parent.mkdir(parents=True, exist_ok=True)
