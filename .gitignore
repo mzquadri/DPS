@@ -1,6 +1,16 @@
-dps 
-*.pyc
-__pycache__/
-.DS_Store
-*.pem
+# Virtual environments. The bare name "dps" used to be listed here for a local
+# venv, which also matched the dps/ package directory and silently excluded the
+# whole library from the repository.
+.venv/
+venv/
+env/
 
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+.DS_Store
+Thumbs.db
+*.pem
