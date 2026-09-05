@@ -1,0 +1,368 @@
+{
+  "generated_utc": "2026-09-05T22:33:49Z",
+  "python": "3.13.9",
+  "sklearn": "1.8.0",
+  "dataset": {
+    "file": "monatszahlen2405_verkehrsunfaelle_export_31_05_24_r.csv",
+    "source": "Landeshauptstadt Muenchen, open data portal",
+    "monthly_observations": 1932,
+    "series": 7,
+    "first_year": 2000,
+    "last_year": 2022
+  },
+  "split": {
+    "strategy": "temporal",
+    "train_end_year": 2020,
+    "train_rows": 1764,
+    "test_rows": 168,
+    "test_years": [
+      2021,
+      2022
+    ],
+    "validation_years": [
+      2019,
+      2020
+    ]
+  },
+  "model_selection": {
+    "parameter": "trend_window_years",
+    "chosen": 6,
+    "selected_on": "2019-2020",
+    "candidates": [
+      {
+        "window": null,
+        "validation_scaled_mae": 0.22783828087698116
+      },
+      {
+        "window": 15,
+        "validation_scaled_mae": 0.20807105556641275
+      },
+      {
+        "window": 12,
+        "validation_scaled_mae": 0.221390283925543
+      },
+      {
+        "window": 10,
+        "validation_scaled_mae": 0.20317814480508903
+      },
+      {
+        "window": 8,
+        "validation_scaled_mae": 0.1726558415967494
+      },
+      {
+        "window": 6,
+        "validation_scaled_mae": 0.14905342040134603
+      },
+      {
+        "window": 4,
+        "validation_scaled_mae": 0.1672724316524286
+      }
+    ]
+  },
+  "scale": {
+    "note": "means over the whole record, the basis for the 'no shared scale' claim",
+    "smallest": 20.731884057971016,
+    "largest": 3511.626811594203,
+    "ratio": 169.38290807409996
+  },
+  "macro": {
+    "seasonal_trend": {
+      "mae": 56.134282879818606,
+      "rmse": 76.79463853553295,
+      "mape_percent": 20.477170112421884,
+      "scaled_mae": 0.153068707277072
+    },
+    "seasonal_naive": {
+      "mae": 86.40476190476191,
+      "rmse": 114.36808133027684,
+      "mape_percent": 25.352713764704543,
+      "scaled_mae": 0.1999367147621284
+    },
+    "series_mean": {
+      "mae": 127.28420256991686,
+      "rmse": 154.16670831103033,
+      "mape_percent": 42.19442672507239,
+      "scaled_mae": 0.29586852859086255
+    }
+  },
+  "micro": {
+    "seasonal_trend": {
+      "mae": 56.1342828798186,
+      "rmse": 117.70842049871925,
+      "mape_percent": 20.477170112421884,
+      "scaled_mae": 0.07676608104168994,
+      "rows": 168,
+      "rows_nonzero": 168
+    },
+    "seasonal_naive": {
+      "mae": 86.4047619047619,
+      "rmse": 187.87904543691326,
+      "mape_percent": 25.35271376470454,
+      "scaled_mae": 0.11816228184423026,
+      "rows": 168,
+      "rows_nonzero": 168
+    },
+    "series_mean": {
+      "mae": 127.28420256991686,
+      "rmse": 239.6232295293583,
+      "mape_percent": 42.19442672507239,
+      "scaled_mae": 0.17406670057099857,
+      "rows": 168,
+      "rows_nonzero": 168
+    }
+  },
+  "per_series": {
+    "Alkoholunfälle|Verletzte und Getötete": {
+      "category": "Alkoholunfälle",
+      "kind": "Verletzte und Getötete",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 21.083333333333332,
+      "mean_all_years": 20.731884057971016,
+      "train_mean": 20.6984126984127,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 5.928571428571428,
+          "rmse": 7.333597449376988,
+          "mape_percent": 44.18271251495548,
+          "scaled_mae": 0.28119706380575943,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 7.083333333333333,
+          "rmse": 8.082903768654761,
+          "mape_percent": 47.075834907362264,
+          "scaled_mae": 0.3359683794466403,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 10.14153439153439,
+          "rmse": 11.458965316179727,
+          "mape_percent": 78.63129615652262,
+          "scaled_mae": 0.4810213940648723,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": 0.9047619047619053
+    },
+    "Alkoholunfälle|insgesamt": {
+      "category": "Alkoholunfälle",
+      "kind": "insgesamt",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 36.5,
+      "mean_all_years": 43.1231884057971,
+      "train_mean": 43.75396825396825,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 7.417361111111108,
+          "rmse": 9.082689834494495,
+          "mape_percent": 27.757689589010674,
+          "scaled_mae": 0.20321537290715366,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 9.416666666666666,
+          "rmse": 11.258330249197702,
+          "mape_percent": 34.40447216643355,
+          "scaled_mae": 0.25799086757990863,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 13.458994708994709,
+          "rmse": 16.03496353065947,
+          "mape_percent": 56.14209376477307,
+          "scaled_mae": 0.3687395810683482,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": 1.1500000000000008
+    },
+    "Fluchtunfälle|Verletzte und Getötete": {
+      "category": "Fluchtunfälle",
+      "kind": "Verletzte und Getötete",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 48.333333333333336,
+      "mean_all_years": 45.18840579710145,
+      "train_mean": 44.888888888888886,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 10.57628968253968,
+          "rmse": 13.975518070815644,
+          "mape_percent": 29.23847984287642,
+          "scaled_mae": 0.21881978653530373,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 14.083333333333334,
+          "rmse": 17.549928774784245,
+          "mape_percent": 36.37098716426282,
+          "scaled_mae": 0.29137931034482756,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 17.00925925925926,
+          "rmse": 20.45938463769344,
+          "mape_percent": 54.44392677994362,
+          "scaled_mae": 0.35191570881226053,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": -0.5642857142857144
+    },
+    "Fluchtunfälle|insgesamt": {
+      "category": "Fluchtunfälle",
+      "kind": "insgesamt",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 858.0833333333334,
+      "mean_all_years": 877.572463768116,
+      "train_mean": 879.4285714285714,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 62.6450396825397,
+          "rmse": 86.76835983590445,
+          "mape_percent": 8.466651758607616,
+          "scaled_mae": 0.0730057760697753,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 88.91666666666667,
+          "rmse": 119.52370755070588,
+          "mape_percent": 11.76109704085831,
+          "scaled_mae": 0.10362241429542585,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 123.61904761904763,
+          "rmse": 148.54217889732408,
+          "mape_percent": 15.967940651701698,
+          "scaled_mae": 0.144064151833405,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": -10.721428571428575
+    },
+    "Verkehrsunfälle|Verletzte und Getötete": {
+      "category": "Verkehrsunfälle",
+      "kind": "Verletzte und Getötete",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 489.5833333333333,
+      "mean_all_years": 509.6231884057971,
+      "train_mean": 511.531746031746,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 59.59126984126988,
+          "rmse": 77.0277519629638,
+          "mape_percent": 14.05080978295213,
+          "scaled_mae": 0.12171833839918954,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 73.25,
+          "rmse": 96.37556744320626,
+          "mape_percent": 17.910799265068654,
+          "scaled_mae": 0.14961702127659576,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 143.46097883597884,
+          "rmse": 165.05446336144746,
+          "mape_percent": 37.78701712415391,
+          "scaled_mae": 0.29302668017561634,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": -9.859523809523816
+    },
+    "Verkehrsunfälle|insgesamt": {
+      "category": "Verkehrsunfälle",
+      "kind": "insgesamt",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 3243.125,
+      "mean_all_years": 3511.626811594203,
+      "train_mean": 3537.1984126984125,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 199.52063492063493,
+          "rmse": 281.7787138768723,
+          "mape_percent": 6.985725609219669,
+          "scaled_mae": 0.06152110539082981,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 347.125,
+          "rmse": 464.9175106044799,
+          "mape_percent": 12.120237552369327,
+          "scaled_mae": 0.1070341106186163,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 460.8412698412698,
+          "rmse": 575.9872233227842,
+          "mape_percent": 16.349759159717266,
+          "scaled_mae": 0.1420979055205303,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": -100.9809523809524
+    },
+    "Verkehrsunfälle|mit Personenschäden": {
+      "category": "Verkehrsunfälle",
+      "kind": "mit Personenschäden",
+      "test_rows": 24,
+      "train_rows": 252,
+      "test_mean": 421.9583333333333,
+      "mean_all_years": 424.32246376811594,
+      "train_mean": 424.54761904761904,
+      "methods": {
+        "seasonal_trend": {
+          "mae": 47.260813492063484,
+          "rmse": 61.59583871830291,
+          "mape_percent": 12.6581216893312,
+          "scaled_mae": 0.11200350783149242,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "seasonal_naive": {
+          "mae": 64.95833333333333,
+          "rmse": 82.8686209209091,
+          "mape_percent": 17.825568256576886,
+          "scaled_mae": 0.15394489977288436,
+          "rows": 24,
+          "rows_nonzero": 24
+        },
+        "series_mean": {
+          "mae": 122.45833333333333,
+          "rmse": 141.62977911112395,
+          "mape_percent": 36.03895343869453,
+          "scaled_mae": 0.29021427866100524,
+          "rows": 24,
+          "rows_nonzero": 24
+        }
+      },
+      "yearly_change": -5.23571428571429
+    }
+  }
+}
