@@ -1,16 +1,40 @@
-name: Tests
+name: checks
 
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 jobs:
-  test:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -r requirements.txt pytest httpx
-      - run: python -m pytest -q
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Tests
+        run: python -m pytest -q
+
+      - name: The pipeline reproduces the published run
+        # Regenerates results/reference_run.json from the CSV. If any published
+        # number changed, the diff fails here rather than in the README.
+        run: |
+          python -m dps.pipeline
+          git diff --exit-code -- results/reference_run.json
+
+      - name: README and docs still match the run
+        run: python scripts/check_claims.py
+
+      - name: Figures regenerate
+        run: python scripts/figures/generate_figures.py
