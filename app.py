@@ -1,49 +1,101 @@
-"""FastAPI service for the traffic-accident regression demonstration."""
+"""FastAPI service over the Munich monthly accident forecaster.
 
-from pathlib import Path
+The service needs to know which series to forecast. There are seven of them and
+they are not interchangeable: total traffic accidents run near 3,200 a month and
+alcohol-related injuries near 20, so a request that names only a year and a month
+does not identify a quantity.
+
+    uvicorn app:app --reload
+
+The artifact is produced by `python -m dps.pipeline` and is loaded once at
+startup rather than on every request.
+"""
+
+from __future__ import annotations
+
 import os
-import pickle
+from pathlib import Path
 from typing import Annotated
 
+import joblib
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
-
-DEFAULT_MODEL_PATH = Path(__file__).with_name("Regressionmodel.pkl")
+DEFAULT_MODEL_PATH = Path(__file__).with_name("models") / "forecaster.joblib"
 
 
 class PredictionRequest(BaseModel):
+    category: Annotated[str, Field(description="Accident category, for example Alkoholunfälle")]
+    kind: Annotated[str, Field(description="Accident type, for example insgesamt")]
     year: Annotated[int, Field(ge=2000, le=2100, description="Calendar year")]
-    month: Annotated[int, Field(ge=1, le=12, description="Calendar month")]
+    month: Annotated[int, Field(ge=1, le=12, description="Calendar month, 1 to 12")]
 
 
-def load_model(model_path: Path):
-    """Load a trusted, local scikit-learn model artifact."""
-    with model_path.open("rb") as model_file:
-        return pickle.load(model_file)
+class PredictionResponse(BaseModel):
+    category: str
+    kind: str
+    year: int
+    month: int
+    prediction: int
+
+
+def load_bundle(model_path: Path):
+    """Load the forecaster bundle written by the training pipeline."""
+    return joblib.load(model_path)
 
 
 def create_app(model_path: Path | None = None) -> FastAPI:
     app = FastAPI(
-        title="Traffic Accident Prediction API",
-        description="A demonstration API for a regression model trained on Munich traffic-accident data.",
-        version="1.0.0",
+        title="Munich accident forecaster",
+        description=(
+            "Monthly forecasts for Munich road accident counts, by category and "
+            "accident type, from the city's published monthly statistics."
+        ),
+        version="2.0.0",
     )
-    resolved_model_path = model_path or Path(os.environ.get("DPS_MODEL_PATH", DEFAULT_MODEL_PATH))
+    resolved = Path(model_path or os.environ.get("DPS_MODEL_PATH", DEFAULT_MODEL_PATH))
+    # Loaded once. Reloading per request would re-read the artifact on every call
+    # and let the service drift if the file changed underneath it.
+    app.state.bundle = load_bundle(resolved) if resolved.is_file() else None
+    app.state.model_path = resolved
 
     @app.get("/")
     def index():
-        return {"service": "traffic-accident-prediction", "status": "ok"}
+        ready = app.state.bundle is not None
+        return {
+            "service": "munich-accident-forecaster",
+            "status": "ok" if ready else "model artifact unavailable",
+            "model_loaded": ready,
+        }
 
-    @app.post("/deaths/")
-    def predict_deaths(request: PredictionRequest):
-        if not resolved_model_path.is_file():
+    @app.get("/series")
+    def series():
+        """The series the model can forecast. A caller cannot guess these."""
+        if app.state.bundle is None:
             raise HTTPException(status_code=503, detail="Model artifact is not available.")
+        return {"series": app.state.bundle["series"],
+                "trained_through": app.state.bundle["train_end_year"]}
 
-        # Only load artifacts produced by a trusted local training workflow.
-        model = load_model(resolved_model_path)
-        prediction = model.predict([[request.year, request.month]])
-        return {"prediction": round(float(prediction[0]))}
+    @app.post("/predict", response_model=PredictionResponse)
+    def predict(request: PredictionRequest):
+        if app.state.bundle is None:
+            raise HTTPException(status_code=503, detail="Model artifact is not available.")
+        key = f"{request.category}|{request.kind}"
+        model = app.state.bundle["models"].get(key)
+        if model is None:
+            known = sorted(app.state.bundle["models"])
+            raise HTTPException(
+                status_code=404,
+                detail={"message": "Unknown series.", "requested": key, "available": known},
+            )
+        value = float(model.predict([request.year], [request.month])[0])
+        return PredictionResponse(
+            category=request.category,
+            kind=request.kind,
+            year=request.year,
+            month=request.month,
+            prediction=round(value),
+        )
 
     return app
 
