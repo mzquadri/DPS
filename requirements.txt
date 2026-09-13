@@ -2,7 +2,22 @@
 # produced with. The previous model artifact was written by scikit-learn 1.5.2
 # and loaded under 1.8.0, which warns about invalid results and leaves the
 # estimator missing attributes added since. Unpinned versions caused that.
-fastapi==0.128.8
+# fastapi 0.128.8 pinned starlette<1.0.0, which held starlette at 0.52.1. pip-audit
+# reports five advisories against that version: Host header validation, StaticFiles path
+# resolution on Windows, HTTPEndpoint method dispatch via getattr, request.form limits not
+# applied to urlencoded bodies, and request path validation before request.url is rebuilt.
+#
+# None of those surfaces is reached by this service. It mounts no StaticFiles, defines no
+# HTTPEndpoint, never calls request.form or request.url, and issues no redirects. The
+# upgrade is taken anyway because starlette parses every request this API serves and the
+# analysis above is about today's three endpoints, not tomorrow's.
+#
+# fastapi 0.141.1 requires only starlette>=0.46.0, so starlette can move to a fixed
+# version. Both are pinned, as everything here is. Validated after the change: 21 tests,
+# `python -m dps.pipeline --check`, `scripts/check_claims.py`, and live uvicorn returning
+# 422 for an out-of-range month, 404 for an unknown series and 200 with umlauts intact.
+fastapi==0.141.1
+starlette==1.6.0
 joblib==1.5.3
 numpy==2.4.3
 pandas==2.3.3
