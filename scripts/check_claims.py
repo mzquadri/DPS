@@ -43,6 +43,11 @@ def build(run: dict) -> list[tuple[str, Path, str]]:
         ("dataset series", readme, rf"\| Series \| {d['series']}, being"),
         ("dataset period", readme, rf"\| Period \| {d['first_year']} to {d['last_year']} \|"),
         ("held-out rows", readme, rf"{s['test_rows']} monthly observations, scored once"),
+        # The limitations section states the training size when explaining why this
+        # workload has no use for a GPU. It is derived from the split, so it is checked
+        # like everything else rather than left as prose that can quietly go stale.
+        ("training rows in the limitations", readme,
+         rf"fitted on\s+{s['train_rows']:,} monthly observations"),
         ("held-out years", readme, rf"Held out: {s['test_years'][0]} and {s['test_years'][1]},"),
         # The prose may spell the number, so accept either form.
         ("trend window", readme,

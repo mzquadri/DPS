@@ -129,6 +129,13 @@ This is a coding challenge exercise, not a public safety tool. Nothing here has
 been validated for operational use, and the counts it forecasts are aggregates
 for a whole city.
 
+It runs on a CPU and there is nothing here for a GPU to do. The model is fitted on
+1,764 monthly observations and the seven fitted series together serialise to a few
+kilobytes. Fitting all seven takes single-digit milliseconds and one forecast
+takes a small fraction of one, measured on the author's machine and not pinned
+anywhere, because those are properties of the machine. Moving arithmetic that
+size to an accelerator would cost more in transfer than it replaced.
+
 ## Attribution
 
 Data: Landeshauptstadt München open data portal, included as the challenge input
