@@ -18,6 +18,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "results" / "reference_run.json"
+ROBUSTNESS = ROOT / "results" / "pandemic_free_run.json"
+
+#: Small counts are spelled out in the prose, so the checks have to accept that form.
+NUMBER_WORDS = {
+    0: "zero", 1: "one", 2: "two", 3: "three", 4: "four",
+    5: "five", 6: "six", 7: "seven",
+}
 
 
 def load() -> dict:
@@ -106,7 +113,53 @@ def build(run: dict) -> list[tuple[str, Path, str]]:
     if beats == len(run["per_series"]):
         claims.append(("beats baseline on all series", readme, r"beats it on all seven series"))
 
+    claims += robustness_claims(readme)
     return claims
+
+
+def robustness_claims(readme: Path) -> list[tuple[str, Path, str]]:
+    """Claims from the pandemic-free re-run, once it has been produced.
+
+    That section says most of the published margin does not survive a move to an
+    ordinary period, which is the least comfortable thing in the README and so
+    the part most worth pinning to a file rather than leaving as prose.
+    """
+    if not ROBUSTNESS.is_file():
+        return []
+
+    run = json.loads(ROBUSTNESS.read_text(encoding="utf-8"))
+    out: list[tuple[str, Path, str]] = []
+
+    for key, label in (("published", "2021-2022, as published"),
+                       ("pandemic_free", "2018-2019, ordinary years")):
+        window = run["windows"][key]
+        trend = f"{window['macro']['seasonal_trend']['scaled_mae']:.3f}"
+        naive = f"{window['macro']['seasonal_naive']['scaled_mae']:.3f}"
+        # The margin is signed, and a leading "+" is a quantifier in a regex rather
+        # than a plus sign. Escape the rendered cell instead of interpolating it.
+        margin = re.escape(f"{window['margin_over_seasonal_naive_scaled_mae'] * 100:+.1f}%")
+        won = f"{window['series_where_the_model_wins']} of {window['series_total']}"
+        out.append((
+            f"robustness table row, {key}",
+            readme,
+            rf"\| {re.escape(label)} \| \*?\*?{re.escape(trend)}\*?\*? \| "
+            rf"\*?\*?{re.escape(naive)}\*?\*? \| {margin} \| {re.escape(won)} \|",
+        ))
+
+    clean = run["windows"]["pandemic_free"]
+    loss = abs(clean["margin_over_seasonal_naive_scaled_mae"]) * 100
+    out.append((
+        "prose margin matches the table",
+        readme,
+        rf"beats the fitted trend by {loss:.1f}%",
+    ))
+    out.append((
+        "prose series count matches the table",
+        readme,
+        rf"ahead on {NUMBER_WORDS[clean['series_where_the_model_wins']]} of the "
+        rf"{NUMBER_WORDS[clean['series_total']]}\s+series",
+    ))
+    return out
 
 
 def main() -> int:

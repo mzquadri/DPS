@@ -32,6 +32,12 @@ jobs:
         # timestamp differ here from the machine that produced the file.
         run: python -m dps.pipeline --check
 
+      - name: The pandemic-free re-run reproduces too
+        # The README says most of the published margin does not survive a move to
+        # an ordinary period. That is the least comfortable claim in the document,
+        # so it is recomputed here rather than trusted.
+        run: python -m dps.robustness --check
+
       - name: README and docs still match the run
         run: python scripts/check_claims.py
 

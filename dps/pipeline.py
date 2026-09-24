@@ -63,9 +63,18 @@ def macro(per_series: dict, method: str, metric: str) -> float:
     return float(np.nanmean(vals))
 
 
-def choose_window(df: pd.DataFrame) -> tuple[int | None, list[dict]]:
-    """Pick the trend window on 2019 and 2020, leaving the test years untouched."""
-    lo, hi = VALIDATION_YEARS
+def choose_window(
+    df: pd.DataFrame,
+    validation_years: tuple[int, int] = VALIDATION_YEARS,
+) -> tuple[int | None, list[dict]]:
+    """Pick the trend window on the validation years, leaving the test years untouched.
+
+    The years are a parameter so that the same selection can be run over an
+    earlier stretch of the record without copying the procedure. `robustness.py`
+    uses that to re-run this protocol on a period the pandemic does not touch.
+    The default is the published split and does not move.
+    """
+    lo, hi = validation_years
     inner_train = df[df["year"] < lo]
     inner_val = df[(df["year"] >= lo) & (df["year"] <= hi)]
     trace = []

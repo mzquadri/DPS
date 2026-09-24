@@ -72,6 +72,37 @@ One caveat belongs next to that result rather than at the bottom of the page. Th
 baseline carries 2020 forward, and 2020 was a pandemic year, so it forecasts low
 on all seven series. Part of the margin is that timing rather than the model.
 
+### How much of that margin is the pandemic
+
+Most of it.
+
+Stating the caveat was not the same as measuring it, so the identical protocol
+was run three years earlier, over a stretch where nothing unusual happened.
+Window selected on 2016 and 2017, refitted on everything to 2017, scored once on
+2018 and 2019. The baseline there repeats 2017, an ordinary year. Same code, same
+metrics, same number of held-out rows.
+
+| Held out | Seasonal trend | Seasonal naive | Margin over the baseline | Series won |
+| --- | --- | --- | --- | --- |
+| 2021-2022, as published | **0.153** | 0.200 | +23.4% | 7 of 7 |
+| 2018-2019, ordinary years | 0.166 | **0.143** | -15.5% | 3 of 7 |
+
+On an ordinary period the baseline wins. Repeating the same calendar month of last
+year beats the fitted trend by 15.5%, and the model is ahead on three of the seven
+series rather than all seven.
+
+The published figure is not wrong and it is not a property of the method either.
+It is what happens when a trend fitted through a collapse is scored against a
+baseline that repeats the collapse. Read it as a measurement of 2021 and 2022.
+
+That the comparison runs at all is the point of keeping the protocol in one place:
+the published window is reproduced by the same function that produces this one, and
+its macro figures match `results/reference_run.json` to 1e-9, which is what makes
+the second row trustworthy.
+
+Reproduce with `python -m dps.robustness`. The run is pinned in
+`results/pandemic_free_run.json` and checked in CI alongside everything else.
+
 ![Held-out forecasts](docs/figures/03_forecast_vs_actual.png)
 
 ## Reproducing

@@ -1,0 +1,542 @@
+{
+  "environment": {
+    "generated_utc": "2026-09-24T21:16:13Z",
+    "python": "3.13.5"
+  },
+  "question": "The published margin over seasonal naive is measured on 2021-2022, where the baseline repeats a pandemic year. How much of it survives on a period the pandemic does not touch?",
+  "method": "The published protocol run unchanged three years earlier: trend window selected on the two validation years, refitted on everything up to the train end year, scored once on the two years after it.",
+  "windows": {
+    "published": {
+      "validation_years": [
+        2019,
+        2020
+      ],
+      "train_end_year": 2020,
+      "test_years": [
+        2021,
+        2022
+      ],
+      "test_rows": 168,
+      "chosen_trend_window_years": 6,
+      "macro": {
+        "seasonal_trend": {
+          "mae": 56.13428287981856,
+          "rmse": 76.79463853553283,
+          "mape_percent": 20.47717011242184,
+          "scaled_mae": 0.15306870727707184
+        },
+        "seasonal_naive": {
+          "mae": 86.40476190476191,
+          "rmse": 114.36808133027684,
+          "mape_percent": 25.352713764704543,
+          "scaled_mae": 0.1999367147621284
+        },
+        "series_mean": {
+          "mae": 127.28420256991686,
+          "rmse": 154.16670831103033,
+          "mape_percent": 42.19442672507239,
+          "scaled_mae": 0.29586852859086255
+        }
+      },
+      "margin_over_seasonal_naive_scaled_mae": 0.234414,
+      "margin_over_seasonal_naive_mape": 0.192309,
+      "series_where_the_model_wins": 7,
+      "series_total": 7
+    },
+    "pandemic_free": {
+      "validation_years": [
+        2016,
+        2017
+      ],
+      "train_end_year": 2017,
+      "test_years": [
+        2018,
+        2019
+      ],
+      "test_rows": 168,
+      "chosen_trend_window_years": 12,
+      "macro": {
+        "seasonal_trend": {
+          "mae": 69.4096563159064,
+          "rmse": 81.22355939879216,
+          "mape_percent": 17.701583096559784,
+          "scaled_mae": 0.16573790822998263
+        },
+        "seasonal_naive": {
+          "mae": 54.785714285714285,
+          "rmse": 69.81807705767913,
+          "mape_percent": 15.350171296041285,
+          "scaled_mae": 0.14346359831983038
+        },
+        "series_mean": {
+          "mae": 121.06161816578482,
+          "rmse": 147.67185554984206,
+          "mape_percent": 28.588060191095707,
+          "scaled_mae": 0.23798548535766242
+        }
+      },
+      "margin_over_seasonal_naive_scaled_mae": -0.155261,
+      "margin_over_seasonal_naive_mape": -0.153185,
+      "series_where_the_model_wins": 3,
+      "series_total": 7
+    }
+  },
+  "margin_lost_to_the_pandemic": 0.389675,
+  "margin_share_lost": 1.662336,
+  "margin_survives": false,
+  "finding": "The margin does not survive the move to an ordinary period: -15.5% against 23.4%, winning on 3 of 7 series. The published result should be read as mostly the baseline's timing.",
+  "per_series": {
+    "published": {
+      "Alkoholunfälle|Verletzte und Getötete": {
+        "category": "Alkoholunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 21.083333333333332,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 5.928571428571419,
+            "rmse": 7.333597449376982,
+            "mape_percent": 44.18271251495536,
+            "scaled_mae": 0.28119706380575904,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 7.083333333333333,
+            "rmse": 8.082903768654761,
+            "mape_percent": 47.075834907362264,
+            "scaled_mae": 0.3359683794466403,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 10.14153439153439,
+            "rmse": 11.458965316179727,
+            "mape_percent": 78.63129615652262,
+            "scaled_mae": 0.4810213940648723,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Alkoholunfälle|insgesamt": {
+        "category": "Alkoholunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 36.5,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 7.417361111111101,
+            "rmse": 9.082689834494486,
+            "mape_percent": 27.757689589010624,
+            "scaled_mae": 0.20321537290715347,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 9.416666666666666,
+            "rmse": 11.258330249197702,
+            "mape_percent": 34.40447216643355,
+            "scaled_mae": 0.25799086757990863,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 13.458994708994709,
+            "rmse": 16.03496353065947,
+            "mape_percent": 56.14209376477307,
+            "scaled_mae": 0.3687395810683482,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Fluchtunfälle|Verletzte und Getötete": {
+        "category": "Fluchtunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 48.333333333333336,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 10.57628968253967,
+            "rmse": 13.975518070815637,
+            "mape_percent": 29.238479842876323,
+            "scaled_mae": 0.2188197865353035,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 14.083333333333334,
+            "rmse": 17.549928774784245,
+            "mape_percent": 36.37098716426282,
+            "scaled_mae": 0.29137931034482756,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 17.00925925925926,
+            "rmse": 20.45938463769344,
+            "mape_percent": 54.44392677994362,
+            "scaled_mae": 0.35191570881226053,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Fluchtunfälle|insgesamt": {
+        "category": "Fluchtunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 858.0833333333334,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 62.64503968253964,
+            "rmse": 86.76835983590433,
+            "mape_percent": 8.466651758607606,
+            "scaled_mae": 0.07300577606977524,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 88.91666666666667,
+            "rmse": 119.52370755070588,
+            "mape_percent": 11.76109704085831,
+            "scaled_mae": 0.10362241429542585,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 123.61904761904763,
+            "rmse": 148.54217889732408,
+            "mape_percent": 15.967940651701698,
+            "scaled_mae": 0.144064151833405,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|Verletzte und Getötete": {
+        "category": "Verkehrsunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 489.5833333333333,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 59.59126984126984,
+            "rmse": 77.02775196296365,
+            "mape_percent": 14.050809782952111,
+            "scaled_mae": 0.12171833839918947,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 73.25,
+            "rmse": 96.37556744320626,
+            "mape_percent": 17.910799265068654,
+            "scaled_mae": 0.14961702127659576,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 143.46097883597884,
+            "rmse": 165.05446336144746,
+            "mape_percent": 37.78701712415391,
+            "scaled_mae": 0.29302668017561634,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|insgesamt": {
+        "category": "Verkehrsunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 3243.125,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 199.5206349206347,
+            "rmse": 281.7787138768719,
+            "mape_percent": 6.985725609219657,
+            "scaled_mae": 0.06152110539082974,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 347.125,
+            "rmse": 464.9175106044799,
+            "mape_percent": 12.120237552369327,
+            "scaled_mae": 0.1070341106186163,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 460.8412698412698,
+            "rmse": 575.9872233227842,
+            "mape_percent": 16.349759159717266,
+            "scaled_mae": 0.1420979055205303,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|mit Personenschäden": {
+        "category": "Verkehrsunfälle",
+        "kind": "mit Personenschäden",
+        "test_rows": 24,
+        "test_mean": 421.9583333333333,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 47.2608134920635,
+            "rmse": 61.59583871830279,
+            "mape_percent": 12.658121689331189,
+            "scaled_mae": 0.11200350783149245,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 64.95833333333333,
+            "rmse": 82.8686209209091,
+            "mape_percent": 17.825568256576886,
+            "scaled_mae": 0.15394489977288436,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 122.45833333333333,
+            "rmse": 141.62977911112395,
+            "mape_percent": 36.03895343869453,
+            "scaled_mae": 0.29021427866100524,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      }
+    },
+    "pandemic_free": {
+      "Alkoholunfälle|Verletzte und Getötete": {
+        "category": "Alkoholunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 17.041666666666668,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 6.321836149961155,
+            "rmse": 7.487450508674718,
+            "mape_percent": 39.87642639670183,
+            "scaled_mae": 0.37096349046226823,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 5.625,
+            "rmse": 6.979135572070035,
+            "mape_percent": 38.488774702852744,
+            "scaled_mae": 0.3300733496332518,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 6.498842592592593,
+            "rmse": 8.199845207060502,
+            "mape_percent": 62.479531675082576,
+            "scaled_mae": 0.3813501765824504,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Alkoholunfälle|insgesamt": {
+        "category": "Alkoholunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 34.666666666666664,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 9.489389083139097,
+            "rmse": 11.016975441244446,
+            "mape_percent": 27.14922641016762,
+            "scaled_mae": 0.2737323773982432,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 5.583333333333333,
+            "rmse": 7.494442385305705,
+            "mape_percent": 17.45668150496722,
+            "scaled_mae": 0.16105769230769232,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 11.402777777777777,
+            "rmse": 13.48151963771564,
+            "mape_percent": 40.67454635223357,
+            "scaled_mae": 0.32892628205128205,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Fluchtunfälle|Verletzte und Getötete": {
+        "category": "Fluchtunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 45.666666666666664,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 6.889216686091696,
+            "rmse": 7.855175305964757,
+            "mape_percent": 16.033537994409173,
+            "scaled_mae": 0.1508587595494532,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 7.75,
+            "rmse": 9.810708435174291,
+            "mape_percent": 18.405758856647278,
+            "scaled_mae": 0.1697080291970803,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 9.559799382716049,
+            "rmse": 12.688416221386067,
+            "mape_percent": 20.727615032573237,
+            "scaled_mae": 0.20933867261422007,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Fluchtunfälle|insgesamt": {
+        "category": "Fluchtunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 975.875,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 50.2459207459209,
+            "rmse": 63.32948235584465,
+            "mape_percent": 5.495445415875642,
+            "scaled_mae": 0.051488070445416576,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 71.20833333333333,
+            "rmse": 88.22579932574523,
+            "mape_percent": 7.288979025183738,
+            "scaled_mae": 0.07296870330045685,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 122.85030864197529,
+            "rmse": 147.87691048351502,
+            "mape_percent": 11.958783580324294,
+            "scaled_mae": 0.12588734073726174,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|Verletzte und Getötete": {
+        "category": "Verkehrsunfälle",
+        "kind": "Verletzte und Getötete",
+        "test_rows": 24,
+        "test_mean": 531.9166666666666,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 65.80917346542341,
+            "rmse": 76.50356121908541,
+            "mape_percent": 14.272313012582794,
+            "scaled_mae": 0.12372083371221698,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 56.5,
+            "rmse": 74.5447293017197,
+            "mape_percent": 10.213842198174634,
+            "scaled_mae": 0.10621964593451357,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 132.8101851851852,
+            "rmse": 162.4698642521851,
+            "mape_percent": 26.482370315970034,
+            "scaled_mae": 0.24968231587376194,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|insgesamt": {
+        "category": "Verkehrsunfälle",
+        "kind": "insgesamt",
+        "test_rows": 24,
+        "test_mean": 3850.75,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 296.619172494173,
+            "rmse": 342.9908619699324,
+            "mape_percent": 8.1879528767481,
+            "scaled_mae": 0.07702893527083632,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 184.58333333333334,
+            "rmse": 231.8839508604825,
+            "mape_percent": 4.619410446455899,
+            "scaled_mae": 0.047934385076500254,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 450.2770061728395,
+            "rmse": 548.3688687717395,
+            "mape_percent": 11.097170276627017,
+            "scaled_mae": 0.11693228752135025,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      },
+      "Verkehrsunfälle|mit Personenschäden": {
+        "category": "Verkehrsunfälle",
+        "kind": "mit Personenschäden",
+        "test_rows": 24,
+        "test_mean": 449.3333333333333,
+        "methods": {
+          "seasonal_trend": {
+            "mae": 50.49288558663557,
+            "rmse": 59.381408990798676,
+            "mape_percent": 12.896179569433333,
+            "scaled_mae": 0.11237289077144416,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "seasonal_naive": {
+            "mae": 52.25,
+            "rmse": 69.78777352325645,
+            "mape_percent": 10.97775233800749,
+            "scaled_mae": 0.11628338278931752,
+            "rows": 24,
+            "rows_nonzero": 24
+          },
+          "series_mean": {
+            "mae": 114.0324074074074,
+            "rmse": 140.6175642752926,
+            "mape_percent": 26.6964041048592,
+            "scaled_mae": 0.2537813221233103,
+            "rows": 24,
+            "rows_nonzero": 24
+          }
+        }
+      }
+    }
+  }
+}
