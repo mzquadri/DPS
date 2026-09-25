@@ -1,0 +1,11 @@
+# The challenge notebooks are kept as provenance, not as the work.
+#
+# docs/provenance.md explains what they are: the original Digital Product School
+# submission, preserved unmodified so the rebuilt model can be compared against
+# what was first handed in. They are 255 KB of notebook JSON against 71 KB of
+# Python, so GitHub reported this as a Jupyter Notebook repository and anyone
+# reading the language bar was told the opposite of what the repository is.
+#
+# linguist-documentation excludes them from the language statistics while leaving
+# them in the tree, browsable and diffable, which is the point of keeping them.
+notebooks/** linguist-documentation
