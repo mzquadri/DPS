@@ -11,9 +11,9 @@ import json
 
 import pytest
 
-from dps.data import load_monthly
-from dps.pipeline import RESULTS as REFERENCE_RUN
-from dps.robustness import PANDEMIC_FREE, PUBLISHED, RESULTS, run_window
+from accidents.data import load_monthly
+from accidents.pipeline import RESULTS as REFERENCE_RUN
+from accidents.robustness import PANDEMIC_FREE, PUBLISHED, RESULTS, run_window
 
 TOLERANCE = 1e-9
 
@@ -37,7 +37,7 @@ def test_the_rerun_reproduces_the_published_window(published):
     """The comparison is only worth reading if both halves come from the same code.
 
     This is the load-bearing test. `run_window` re-implements the protocol so it
-    can be pointed at a different period; if it drifted from `dps.pipeline` the
+    can be pointed at a different period; if it drifted from `accidents.pipeline` the
     second row of the README table would be measuring something else.
     """
     stored = json.loads(REFERENCE_RUN.read_text(encoding="utf-8"))

@@ -1,6 +1,6 @@
 """Train, evaluate against baselines, and write the artifacts the API serves.
 
-    python -m dps.pipeline
+    python -m accidents.pipeline
 
 The trend window is chosen on 2019 and 2020, then the chosen setting is refitted
 on everything up to 2020 and scored once on 2021 and 2022. The test years are

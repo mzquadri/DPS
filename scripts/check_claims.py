@@ -29,7 +29,7 @@ NUMBER_WORDS = {
 
 def load() -> dict:
     if not RUN.is_file():
-        raise SystemExit("results/reference_run.json is missing. Run: python -m dps.pipeline")
+        raise SystemExit("results/reference_run.json is missing. Run: python -m accidents.pipeline")
     return json.loads(RUN.read_text(encoding="utf-8"))
 
 

@@ -35,7 +35,7 @@ challenge input.
 | Categories | Alkoholunfälle, Fluchtunfälle, Verkehrsunfälle |
 | Types | insgesamt, Verletzte und Getötete, mit Personenschäden |
 
-Three details in the file matter and each is handled in `dps/data.py`. `MONAT`
+Three details in the file matter and each is handled in `accidents/data.py`. `MONAT`
 holds YYYYMM rather than a month number. Rows with `MONAT` set to `Summe` are
 annual subtotals and would swamp the monthly series. Rows exist for 2023 and 2024
 with no values, because those months were not published, which is not the same
@@ -100,7 +100,7 @@ the published window is reproduced by the same function that produces this one, 
 its macro figures match `results/reference_run.json` to 1e-9, which is what makes
 the second row trustworthy.
 
-Reproduce with `python -m dps.robustness`. The run is pinned in
+Reproduce with `python -m accidents.robustness`. The run is pinned in
 `results/pandemic_free_run.json` and checked in CI alongside everything else.
 
 ![Held-out forecasts](docs/figures/03_forecast_vs_actual.png)
@@ -111,7 +111,7 @@ Python 3.11.
 
 ```bash
 pip install -r requirements.txt
-python -m dps.pipeline
+python -m accidents.pipeline
 ```
 
 That reads the CSV, selects the trend window on the validation years, refits,

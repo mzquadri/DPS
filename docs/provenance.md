@@ -18,6 +18,17 @@ The model artifact those notebooks produced, `Regressionmodel.pkl`, is no longer
 in the working tree. It remains in the git history at commit `c4b8391` and
 earlier.
 
+The repository and the package were called `DPS` and `dps`, after the programme
+the challenge came from. Three letters that mean nothing to a reader are a poor
+name for work that has to be read, so both now say what the project is. GitHub
+redirects the old path, and git recorded the directory as a rename, so the
+history of every file is intact. Nothing about the model or the results changed
+with it: the reproduction gates in the workflow compare against the same
+committed run files as before.
+
+One name was left alone. `notebooks/DPS_Model.ipynb` is the submitted file and is
+kept spelled as it was submitted.
+
 ## What was wrong with it
 
 The original model was reproduced exactly from `notebooks/Regression_model.ipynb`
@@ -52,7 +63,7 @@ values, and 2024 was excluded only as a side effect of the `JAHR <= 2020` filter
 
 ## What was rebuilt
 
-Everything under `dps/`, `app.py`, `tests/`, `scripts/` and `docs/` is new work.
+Everything under `accidents/`, `app.py`, `tests/`, `scripts/` and `docs/` is new work.
 
 | Area | Change |
 | --- | --- |

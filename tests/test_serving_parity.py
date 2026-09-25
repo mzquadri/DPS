@@ -1,7 +1,7 @@
 """The number the API serves must be the number the pipeline would report.
 
 Two paths reach a forecast and they are not the same code. The pipeline scores with
-`dps.model.predict_frame`, which dispatches each row to its series through
+`accidents.model.predict_frame`, which dispatches each row to its series through
 `Series(category, kind).key`. The API loads the artifact, builds a key by hand as
 `f"{category}|{kind}"`, looks the model up in a dict and rounds the result to an integer.
 
@@ -22,8 +22,8 @@ import pandas as pd
 import pytest
 from fastapi.testclient import TestClient
 
+from accidents.model import predict_frame
 from app import create_app
-from dps.model import predict_frame
 
 MODEL_PATH = "models/forecaster.joblib"
 
@@ -80,7 +80,7 @@ def test_the_comparison_actually_covered_every_series(bundle):
 
 def test_the_api_keys_a_series_the_way_the_data_module_does(bundle):
     """The API builds "category|kind" by hand; Series.key is the definition."""
-    from dps.data import Series
+    from accidents.data import Series
 
     for entry in bundle["series"]:
         built_by_hand = f"{entry['category']}|{entry['kind']}"

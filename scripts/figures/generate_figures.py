@@ -26,8 +26,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 import portfolio_style as ps  # noqa: E402
 
-from dps.data import TRAIN_END_YEAR, load_monthly, series_list, split  # noqa: E402
-from dps.model import SeasonalNaive, SeasonalTrend, fit_all  # noqa: E402
+from accidents.data import TRAIN_END_YEAR, load_monthly, series_list, split  # noqa: E402
+from accidents.model import SeasonalNaive, SeasonalTrend, fit_all  # noqa: E402
 
 OUT = ROOT / "docs" / "figures"
 RUN = ROOT / "results" / "reference_run.json"
@@ -50,7 +50,7 @@ def label(category: str, kind: str) -> str:
 
 def load_run() -> dict:
     if not RUN.exists():
-        raise SystemExit("results/reference_run.json is missing. Run: python -m dps.pipeline")
+        raise SystemExit("results/reference_run.json is missing. Run: python -m accidents.pipeline")
     return json.loads(RUN.read_text(encoding="utf-8"))
 
 

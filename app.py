@@ -7,7 +7,7 @@ does not identify a quantity.
 
     uvicorn app:app --reload
 
-The artifact is produced by `python -m dps.pipeline` and is loaded once at
+The artifact is produced by `python -m accidents.pipeline` and is loaded once at
 startup rather than on every request.
 """
 
@@ -53,7 +53,7 @@ def create_app(model_path: Path | None = None) -> FastAPI:
         ),
         version="2.0.0",
     )
-    resolved = Path(model_path or os.environ.get("DPS_MODEL_PATH", DEFAULT_MODEL_PATH))
+    resolved = Path(model_path or os.environ.get("ACCIDENTS_MODEL_PATH", DEFAULT_MODEL_PATH))
     # Loaded once. Reloading per request would re-read the artifact on every call
     # and let the service drift if the file changed underneath it.
     app.state.bundle = load_bundle(resolved) if resolved.is_file() else None

@@ -8,8 +8,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from dps.data import load_monthly, series_list, split
-from dps.model import SeasonalNaive, SeasonalTrend, design
+from accidents.data import load_monthly, series_list, split
+from accidents.model import SeasonalNaive, SeasonalTrend, design
 
 
 def test_umlauts_survive_loading():

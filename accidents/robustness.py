@@ -1,7 +1,7 @@
 """How much of the margin over seasonal naive is the pandemic, and how much is the model?
 
-    python -m dps.robustness
-    python -m dps.robustness --check
+    python -m accidents.robustness
+    python -m accidents.robustness --check
 
 The published result holds out 2021 and 2022. The README already says the obvious
 thing about that: the seasonal naive baseline carries 2020 forward, 2020 was a

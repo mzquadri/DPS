@@ -1,6 +1,6 @@
 # Evaluation
 
-Every number here is written by `python -m dps.pipeline` into
+Every number here is written by `python -m accidents.pipeline` into
 `results/reference_run.json`. Nothing in this file is typed by hand.
 
 ## Split

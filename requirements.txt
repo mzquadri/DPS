@@ -14,7 +14,7 @@
 #
 # fastapi 0.141.1 requires only starlette>=0.46.0, so starlette can move to a fixed
 # version. Both are pinned, as everything here is. Validated after the change: 21 tests,
-# `python -m dps.pipeline --check`, `scripts/check_claims.py`, and live uvicorn returning
+# `python -m accidents.pipeline --check`, `scripts/check_claims.py`, and live uvicorn returning
 # 422 for an out-of-range month, 404 for an unknown series and 200 with umlauts intact.
 fastapi==0.141.1
 starlette==1.6.0
